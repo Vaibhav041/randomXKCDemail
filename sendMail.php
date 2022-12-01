@@ -25,7 +25,6 @@ require 'phpMailer/SMTP.php';
    
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        // echo $row['Email'];
         $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
@@ -44,8 +43,6 @@ require 'phpMailer/SMTP.php';
         $mail->Body .= '<img src='.$json->img.'> <br>';
         $mail->Body .= '<a href=$link>UnSubscribe</a>';
         $mail->addStringAttachment(file_get_contents($json->img),'img_name.png');
-        // $mail->Body = '<img src='.$json->img.'> <br>';
-        // $mail->Body = "";
         $mail->send();
     }
   }

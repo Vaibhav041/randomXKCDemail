@@ -1,4 +1,27 @@
-// Add styling
+<?php
+session_start();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_SESSION['email'];
+    $currOtp = $_POST['OTP'];
+    $originalOtp = $_SESSION['otp'];
+    if ($currOtp == $originalOtp) {  // if verified then subscribe the user
+        // entry in database
+        include("DB.php");
+        $sql = "INSERT INTO `user` (`Email`) VALUES ('$email')";
+        $result = mysqli_query($conn, $sql);
+        if ($result) {
+            header('Location: congrats.php');
+        }
+        else {
+            echo "user already subscribed";
+        }
+    }
+    else {
+        echo "INVALID";
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,29 +80,5 @@
         </div>
     </form>
  </div>
-<?php
-session_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_SESSION['email'];
-    $currOtp = $_POST['OTP'];
-    $originalOtp = $_SESSION['otp'];
-    if ($currOtp == $originalOtp) {  // if verified then subscribe the user
-        // entry in database
-        include("DB.php");
-        $sql = "INSERT INTO `user` (`Email`) VALUES ('$email')";
-        $result = mysqli_query($conn, $sql);
-        if ($result) {
-            header('Location: congrats.php');
-        }
-        else {
-            echo "user already subscribed";
-        }
-    }
-    else {
-        echo "INVALID";
-    }
-}
-
-?>
 </body>
 </html>
